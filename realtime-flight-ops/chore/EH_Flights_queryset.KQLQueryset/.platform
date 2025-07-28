@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLQueryset",
+    "displayName": "EH_Flights_queryset",
+    "description": "EH_Flights_queryset"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0e8876a7-844d-82b9-4a03-fba1f9c3ae95"
+  }
+}
