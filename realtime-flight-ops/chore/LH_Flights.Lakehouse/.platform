@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "LH_Flights"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "df8eb261-3944-8883-4219-81d0d2e44b41"
+  }
+}
