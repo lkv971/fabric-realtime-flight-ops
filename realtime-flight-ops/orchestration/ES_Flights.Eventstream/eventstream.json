@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "id": "93e5d68f-6ce9-474f-b41f-e89a5eb899d3",
+      "name": "Notebook",
+      "type": "CustomEndpoint",
+      "properties": {}
+    }
+  ],
+  "destinations": [],
+  "streams": [
+    {
+      "id": "a072da31-31bf-419c-8c7e-b180948094f9",
+      "name": "ES_Flights-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "Notebook"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}

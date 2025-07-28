@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Eventstream",
+    "displayName": "ES_Flights"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "77f8532c-80a4-be6e-4548-488029097694"
+  }
+}
