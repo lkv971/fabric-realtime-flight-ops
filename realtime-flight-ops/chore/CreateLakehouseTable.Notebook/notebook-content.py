@@ -41,7 +41,7 @@ flights_schema = StructType([
     StructField("DepartureSched", TimestampType()),
     StructField("DepartureDelay", StringType()),
     StructField("ArrivalIATA", StringType()),
-    StructField("ArrivalSched", TimestampType()),
+    StructField("ArriivalSched", TimestampType()),
     StructField("ArrivalDelay", StringType()),
     StructField("Airline", StringType()),
     StructField("FlightNumber", StringType()),
@@ -49,8 +49,6 @@ flights_schema = StructType([
 ])
 
 df_flights = spark.createDataFrame([], schema=flights_schema)
-
-df_flights = df_flights["IngestedAt", "FlightDate", "Status", "DepartureIATA", "DepartureSched", "DepartureDelay", "ArrivalIATA", "ArrivalSched", "ArrivalDelay", "Airline", "FlightNumber"]
 
 # METADATA ********************
 
@@ -61,7 +59,7 @@ df_flights = df_flights["IngestedAt", "FlightDate", "Status", "DepartureIATA", "
 
 # CELL ********************
 
-df_flights.write.format("delta").mode("overwrite").option("overwriteSchema", "true").partitionBy("IngestedAt").saveAsTable("flights")
+df_flights.write.format("delta").mode("overwrite").option("overwriteSchema", "true").saveAsTable("flights")
 
 # METADATA ********************
 
