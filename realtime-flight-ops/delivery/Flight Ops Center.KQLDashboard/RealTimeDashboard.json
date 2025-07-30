@@ -1,0 +1,275 @@
+{
+  "schema_version": "60",
+  "autoRefresh": {
+    "enabled": true,
+    "minInterval": "1h"
+  },
+  "tiles": [
+    {
+      "id": "d4f52d30-bdc0-449f-800c-b526a1525a0d",
+      "title": "Active Flights by Status",
+      "visualType": "pie",
+      "pageId": "88f2e560-0493-40f3-b7e4-0301a062ff65",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 7,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "58fb8163-0b6b-43e7-acef-97e79c40fb6f"
+      },
+      "visualOptions": {
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumn": "Status",
+        "yColumns": [
+          "Count"
+        ],
+        "seriesColumns": null,
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "labelDisabled": false,
+        "pie__label": [
+          "name",
+          "percentage"
+        ],
+        "tooltipDisabled": false,
+        "pie__tooltip": [
+          "name",
+          "percentage",
+          "value"
+        ],
+        "pie__orderBy": "size",
+        "pie__kind": "donut",
+        "pie__topNSlices": null,
+        "crossFilter": [],
+        "drillthrough": []
+      }
+    },
+    {
+      "id": "261a193a-e977-4816-b4a7-152b0f23a31b",
+      "title": "Upcoming Departures",
+      "visualType": "table",
+      "pageId": "88f2e560-0493-40f3-b7e4-0301a062ff65",
+      "layout": {
+        "x": 0,
+        "y": 7,
+        "width": 11,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "152366b4-25e8-4f5c-aca0-34227f3480af"
+      },
+      "visualOptions": {
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    },
+    {
+      "id": "f28fd69d-fdb7-4a20-a5f1-495ed158b846",
+      "title": "Delay Trend (30 min)",
+      "visualType": "stackedbar",
+      "pageId": "88f2e560-0493-40f3-b7e4-0301a062ff65",
+      "layout": {
+        "x": 7,
+        "y": 0,
+        "width": 8,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "dea0f4c2-dde4-434c-b385-052a44c7b65b"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": "TimeBucket",
+        "yColumns": [
+          "DelayCount"
+        ],
+        "seriesColumns": [
+          "IsDelayed"
+        ],
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": []
+      }
+    },
+    {
+      "id": "212095cd-e69d-4402-b054-794ef48794d9",
+      "title": "Delayed Flights",
+      "visualType": "table",
+      "pageId": "88f2e560-0493-40f3-b7e4-0301a062ff65",
+      "layout": {
+        "x": 11,
+        "y": 7,
+        "width": 11,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "4bc08e7c-1850-4431-8496-ce4321b28f10"
+      },
+      "visualOptions": {
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    },
+    {
+      "id": "162883e5-8805-458b-932c-619ddfae98d1",
+      "title": "Top Delaying Airlines",
+      "visualType": "bar",
+      "pageId": "88f2e560-0493-40f3-b7e4-0301a062ff65",
+      "layout": {
+        "x": 15,
+        "y": 0,
+        "width": 7,
+        "height": 7
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "3f8546d0-cdc8-4187-84cd-4c410791ec80"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": "Airline",
+        "yColumns": [
+          "AirlineAvgDelay"
+        ],
+        "seriesColumns": null,
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "selectedDataOnLoad": {
+          "all": true,
+          "limit": 10
+        }
+      }
+    }
+  ],
+  "baseQueries": [],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "8fd2092d-f768-4355-a23e-0b747e676a9f",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 1,
+        "unit": "hours"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "id": "4e50690c-062e-4fda-b967-3369e1c178c4",
+      "kind": "kusto-trident",
+      "scopeId": "kusto-trident",
+      "clusterUri": "",
+      "database": "e72082f7-a9de-9b5c-4c5c-ae0337b7055a",
+      "name": "EH_Flights",
+      "workspace": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "pages": [
+    {
+      "name": "Page 1",
+      "id": "88f2e560-0493-40f3-b7e4-0301a062ff65"
+    }
+  ],
+  "queries": [
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "4e50690c-062e-4fda-b967-3369e1c178c4"
+      },
+      "text": "flights_snapshot_fn\n| summarize Count = count() by Status",
+      "id": "58fb8163-0b6b-43e7-acef-97e79c40fb6f",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "4e50690c-062e-4fda-b967-3369e1c178c4"
+      },
+      "text": "flights_snapshot_fn\n| where Status == \"scheduled\"\n| project FlightNumber, Airline, DepartureIATA, ArrivalIATA, DepartureTime = format_datetime(DepartureSched, \"HH:mm\")\n| order by DepartureTime asc",
+      "id": "152366b4-25e8-4f5c-aca0-34227f3480af",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "4e50690c-062e-4fda-b967-3369e1c178c4"
+      },
+      "text": "flights_snapshot_fn()\n| extend IsDelayed = iif(DepartureDelay > 15, \"Delayed\", \"OnTime\")\n| summarize DelayCount = count() by TimeBucket = bin(IngestedAt, 30m), IsDelayed\n| order by TimeBucket asc",
+      "id": "dea0f4c2-dde4-434c-b385-052a44c7b65b",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "4e50690c-062e-4fda-b967-3369e1c178c4"
+      },
+      "text": "flights_flagged\n| project FlightNumber, Airline, DepartureDelay, ArrivalDelay\n| order by DepartureDelay desc ",
+      "id": "4bc08e7c-1850-4431-8496-ce4321b28f10",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "4e50690c-062e-4fda-b967-3369e1c178c4"
+      },
+      "text": "flights_flagged\n| extend\n    DepartureDelay = toint(DepartureDelay),\n    ArrivalDelay = toint(ArrivalDelay)\n| extend\n    DepartureDelay = coalesce(DepartureDelay, 0),\n    ArrivalDelay = coalesce(ArrivalDelay, 0)\n| extend TotalDelay = DepartureDelay + ArrivalDelay\n| summarize AirlineAvgDelay = avg(TotalDelay) by Airline\n| top 10 by AirlineAvgDelay desc\n| project Airline, AirlineAvgDelay",
+      "id": "3f8546d0-cdc8-4187-84cd-4c410791ec80",
+      "usedVariables": []
+    }
+  ]
+}
