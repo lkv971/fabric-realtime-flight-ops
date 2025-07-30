@@ -9,103 +9,6 @@
   ],
   "destinations": [
     {
-      "id": "8cf36ffc-5297-4671-b73e-1b750b2da873",
-      "name": "Lakehouse",
-      "type": "Lakehouse",
-      "properties": {
-        "workspaceId": "00000000-0000-0000-0000-000000000000",
-        "itemId": "df8eb261-3944-8883-4219-81d0d2e44b41",
-        "schema": "",
-        "deltaTable": "flights",
-        "inputSerialization": {
-          "type": "Json",
-          "properties": {
-            "encoding": "UTF8"
-          }
-        }
-      },
-      "inputNodes": [
-        {
-          "name": "FlightsRawData"
-        }
-      ],
-      "inputSchemas": [
-        {
-          "name": "FlightsRawData",
-          "schema": {
-            "columns": [
-              {
-                "name": "FlightDate",
-                "type": "DateTime",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "Status",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureIATA",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureDelay",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureSched",
-                "type": "DateTime",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "ArrivalIATA",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "ArriivalSched",
-                "type": "DateTime",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "ArrivalDelay",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "Airline",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "FlightNumber",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "IngestedAt",
-                "type": "DateTime",
-                "fields": null,
-                "items": null
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
       "id": "c777eee2-4bc6-49e6-b999-2aa15acdda4f",
       "name": "Eventhouse",
       "type": "Eventhouse",
@@ -124,12 +27,12 @@
       },
       "inputNodes": [
         {
-          "name": "FlightsRawData"
+          "name": "ManageFields"
         }
       ],
       "inputSchemas": [
         {
-          "name": "FlightsRawData",
+          "name": "ManageFields",
           "schema": {
             "columns": [
               {
@@ -146,12 +49,6 @@
               },
               {
                 "name": "DepartureIATA",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureDelay",
                 "type": "Nvarchar(max)",
                 "fields": null,
                 "items": null
@@ -195,6 +92,109 @@
               {
                 "name": "IngestedAt",
                 "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "DepartureDelay",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c7e22168-bc9b-4659-bd96-068e0b81f7e7",
+      "name": "Lakehouse",
+      "type": "Lakehouse",
+      "properties": {
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "df8eb261-3944-8883-4219-81d0d2e44b41",
+        "schema": "",
+        "deltaTable": "flights",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "ManageFields"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "ManageFields",
+          "schema": {
+            "columns": [
+              {
+                "name": "FlightDate",
+                "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Status",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "DepartureIATA",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "DepartureSched",
+                "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "ArrivalIATA",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "ArriivalSched",
+                "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "ArrivalDelay",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Airline",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "FlightNumber",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "IngestedAt",
+                "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "DepartureDelay",
+                "type": "Nvarchar(max)",
                 "fields": null,
                 "items": null
               }
@@ -219,7 +219,7 @@
   ],
   "operators": [
     {
-      "name": "FlightsRawData",
+      "name": "ManageFields",
       "type": "ManageFields",
       "inputNodes": [
         {
@@ -268,25 +268,6 @@
               }
             },
             "alias": "DepartureIATA"
-          },
-          {
-            "type": "FunctionCall",
-            "properties": {
-              "functionName": "Json_Stringify",
-              "arguments": [
-                {
-                  "expressionType": "ColumnReference",
-                  "node": null,
-                  "columnName": "departure",
-                  "columnPathSegments": [
-                    {
-                      "field": "delay"
-                    }
-                  ]
-                }
-              ]
-            },
-            "alias": "DepartureDelay"
           },
           {
             "type": "Cast",
@@ -401,6 +382,23 @@
               }
             },
             "alias": "IngestedAt"
+          },
+          {
+            "type": "Cast",
+            "properties": {
+              "targetDataType": "Nvarchar(max)",
+              "column": {
+                "expressionType": "ColumnReference",
+                "node": null,
+                "columnName": "departure",
+                "columnPathSegments": [
+                  {
+                    "field": "delay"
+                  }
+                ]
+              }
+            },
+            "alias": "DepartureDelay"
           }
         ]
       },
@@ -457,14 +455,14 @@
                   },
                   {
                     "name": "gate",
-                    "type": "Nvarchar(max)",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
                     "name": "delay",
-                    "type": "Record",
-                    "fields": [],
+                    "type": "BigInt",
+                    "fields": null,
                     "items": null
                   },
                   {
@@ -530,14 +528,14 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Record",
-                    "fields": [],
+                    "type": "Nvarchar(max)",
+                    "fields": null,
                     "items": null
                   },
                   {
                     "name": "gate",
-                    "type": "Nvarchar(max)",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
@@ -635,7 +633,44 @@
                   {
                     "name": "codeshared",
                     "type": "Record",
-                    "fields": [],
+                    "fields": [
+                      {
+                        "name": "airline_name",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "airline_iata",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "airline_icao",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "flight_number",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "flight_iata",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "flight_icao",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      }
+                    ],
                     "items": null
                   }
                 ],
