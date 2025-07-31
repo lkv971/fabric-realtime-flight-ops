@@ -96,6 +96,12 @@
                 "items": null
               },
               {
+                "name": "AirlineIATA",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
                 "name": "DepartureDelay",
                 "type": "Nvarchar(max)",
                 "fields": null,
@@ -189,6 +195,12 @@
               {
                 "name": "IngestedAt",
                 "type": "DateTime",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "AirlineIATA",
+                "type": "Nvarchar(max)",
                 "fields": null,
                 "items": null
               },
@@ -384,19 +396,37 @@
             "alias": "IngestedAt"
           },
           {
-            "type": "Cast",
+            "type": "Rename",
             "properties": {
-              "targetDataType": "Nvarchar(max)",
               "column": {
                 "expressionType": "ColumnReference",
                 "node": null,
-                "columnName": "departure",
+                "columnName": "airline",
                 "columnPathSegments": [
                   {
-                    "field": "delay"
+                    "field": "iata"
                   }
                 ]
               }
+            },
+            "alias": "AirlineIATA"
+          },
+          {
+            "type": "FunctionCall",
+            "properties": {
+              "functionName": "Json_Stringify",
+              "arguments": [
+                {
+                  "expressionType": "ColumnReference",
+                  "node": null,
+                  "columnName": "departure",
+                  "columnPathSegments": [
+                    {
+                      "field": "delay"
+                    }
+                  ]
+                }
+              ]
             },
             "alias": "DepartureDelay"
           }
@@ -455,14 +485,14 @@
                   },
                   {
                     "name": "gate",
-                    "type": "Record",
-                    "fields": [],
+                    "type": "Nvarchar(max)",
+                    "fields": null,
                     "items": null
                   },
                   {
                     "name": "delay",
-                    "type": "BigInt",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
@@ -528,8 +558,8 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Nvarchar(max)",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
@@ -633,44 +663,7 @@
                   {
                     "name": "codeshared",
                     "type": "Record",
-                    "fields": [
-                      {
-                        "name": "airline_name",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      },
-                      {
-                        "name": "airline_iata",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      },
-                      {
-                        "name": "airline_icao",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      },
-                      {
-                        "name": "flight_number",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      },
-                      {
-                        "name": "flight_iata",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      },
-                      {
-                        "name": "flight_icao",
-                        "type": "Nvarchar(max)",
-                        "fields": null,
-                        "items": null
-                      }
-                    ],
+                    "fields": [],
                     "items": null
                   }
                 ],
