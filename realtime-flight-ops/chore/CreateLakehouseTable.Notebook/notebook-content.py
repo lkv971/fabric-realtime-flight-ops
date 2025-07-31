@@ -41,10 +41,11 @@ flights_schema = StructType([
     StructField("DepartureSched", TimestampType()),
     StructField("DepartureDelay", StringType()),
     StructField("ArrivalIATA", StringType()),
-    StructField("ArriivalSched", TimestampType()),
+    StructField("ArrivalSched", TimestampType()),
     StructField("ArrivalDelay", StringType()),
     StructField("Airline", StringType()),
-    StructField("FlightNumber", StringType()),
+    StructField("AirlineIATA", StringType()),
+    StructField("FlightNumber", IntegerType()),
     StructField("IngestedAt", TimestampType())
 ])
 
