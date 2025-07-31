@@ -1,0 +1,398 @@
+{
+  "name": "{{Dataset_Name}}",
+  "compatibilityLevel": 1604,
+  "model": {
+    "name": "{{Dataset_Name}}",
+    "culture": "en-US",
+    "collation": "Latin1_General_100_BIN2_UTF8",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "Flights(1)",
+        "sourceLineageTag": "[Aviation].[Flights]",
+        "columns": [
+          {
+            "name": "FlightDate",
+            "dataType": "dateTime",
+            "sourceColumn": "FlightDate",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "FlightDate",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Status",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureIATA",
+            "dataType": "string",
+            "sourceColumn": "DepartureIATA",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DepartureIATA",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureSched",
+            "dataType": "dateTime",
+            "sourceColumn": "DepartureSched",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "DepartureSched",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureDelay",
+            "dataType": "string",
+            "sourceColumn": "DepartureDelay",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DepartureDelay",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalIATA",
+            "dataType": "string",
+            "sourceColumn": "ArrivalIATA",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ArrivalIATA",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArriivalSched",
+            "dataType": "dateTime",
+            "sourceColumn": "ArriivalSched",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "ArriivalSched",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalDelay",
+            "dataType": "string",
+            "sourceColumn": "ArrivalDelay",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ArrivalDelay",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Airline",
+            "dataType": "string",
+            "sourceColumn": "Airline",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Airline",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "FlightNumber",
+            "dataType": "string",
+            "sourceColumn": "FlightNumber",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "FlightNumber",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IngestedAt",
+            "dataType": "dateTime",
+            "sourceColumn": "IngestedAt",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "IngestedAt",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "Flights",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "StagingFlights",
+        "sourceLineageTag": "[Aviation].[StagingFlights]",
+        "columns": [
+          {
+            "name": "FlightDate",
+            "dataType": "dateTime",
+            "sourceColumn": "FlightDate",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "FlightDate",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Status",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureIATA",
+            "dataType": "string",
+            "sourceColumn": "DepartureIATA",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DepartureIATA",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureSched",
+            "dataType": "dateTime",
+            "sourceColumn": "DepartureSched",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "DepartureSched",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DepartureDelay",
+            "dataType": "string",
+            "sourceColumn": "DepartureDelay",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DepartureDelay",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalIATA",
+            "dataType": "string",
+            "sourceColumn": "ArrivalIATA",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ArrivalIATA",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArriivalSched",
+            "dataType": "dateTime",
+            "sourceColumn": "ArriivalSched",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "ArriivalSched",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalDelay",
+            "dataType": "string",
+            "sourceColumn": "ArrivalDelay",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ArrivalDelay",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Airline",
+            "dataType": "string",
+            "sourceColumn": "Airline",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Airline",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "FlightNumber",
+            "dataType": "string",
+            "sourceColumn": "FlightNumber",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "FlightNumber",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IngestedAt",
+            "dataType": "dateTime",
+            "sourceColumn": "IngestedAt",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "IngestedAt",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "StagingFlights",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      }
+    ],
+    "expressions": [
+      {
+        "name": "DatabaseQuery",
+        "kind": "m",
+        "expression": "let\n    database = {{TDS_Endpoint}}\nin\n    database\n"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "SourceLineageTagType",
+        "value": "DatabaseFullyQualifiedName"
+      }
+    ]
+  }
+}
