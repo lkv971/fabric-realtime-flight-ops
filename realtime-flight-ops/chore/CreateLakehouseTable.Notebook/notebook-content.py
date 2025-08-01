@@ -45,7 +45,7 @@ flights_schema = StructType([
     StructField("ArrivalDelay", StringType()),
     StructField("Airline", StringType()),
     StructField("AirlineIATA", StringType()),
-    StructField("FlightNumber", IntegerType()),
+    StructField("FlightNumber", StringType()),
     StructField("IngestedAt", TimestampType())
 ])
 
@@ -60,7 +60,7 @@ df_flights = spark.createDataFrame([], schema=flights_schema)
 
 # CELL ********************
 
-df_flights.write.format("delta").mode("overwrite").option("overwriteSchema", "true").saveAsTable("flights")
+df_flights.write.format("delta").mode("overwrite").saveAsTable("flights")
 
 # METADATA ********************
 
