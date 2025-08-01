@@ -3,7 +3,7 @@
 
 
 .create-merge table flights_flagged (IngestedAt:datetime, FlightNumber:string, Airline:string, Status:string, DepartureIATA:string, DepartureDelay:int, ArrivalIATA:string, ArrivalDelay:int) 
-.create-merge table flights_raw (FlightDate:datetime, Status:string, DepartureIATA:string, DepartureSched:datetime, DepartureDelay:string, ArrivalIATA:string, ArrivalSched:datetime, ArrivalDelay:string, Airline:string, AirlineIATA:string, FlightNumber:int, IngestedAt:datetime) 
+.create-merge table flights_raw (FlightDate:datetime, Status:string, DepartureIATA:string, DepartureSched:datetime, DepartureDelay:string, ArrivalIATA:string, ArrivalSched:datetime, ArrivalDelay:string, Airline:string, AirlineIATA:string, FlightNumber:string, IngestedAt:datetime) 
 .create-or-alter function with (skipvalidation = "true") flights_snapshot_fn() {
     flights_raw
     | where IngestedAt > ago(1h)

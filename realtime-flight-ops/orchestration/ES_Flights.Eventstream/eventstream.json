@@ -9,7 +9,7 @@
   ],
   "destinations": [
     {
-      "id": "c777eee2-4bc6-49e6-b999-2aa15acdda4f",
+      "id": "3923b203-3766-45fa-a425-f9574d5b8f68",
       "name": "Eventhouse",
       "type": "Eventhouse",
       "properties": {
@@ -54,6 +54,12 @@
                 "items": null
               },
               {
+                "name": "DepartureDelay",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
                 "name": "DepartureSched",
                 "type": "DateTime",
                 "fields": null,
@@ -66,7 +72,7 @@
                 "items": null
               },
               {
-                "name": "ArriivalSched",
+                "name": "ArrivalSched",
                 "type": "DateTime",
                 "fields": null,
                 "items": null
@@ -84,6 +90,12 @@
                 "items": null
               },
               {
+                "name": "AirlineIATA",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
                 "name": "FlightNumber",
                 "type": "Nvarchar(max)",
                 "fields": null,
@@ -94,18 +106,6 @@
                 "type": "DateTime",
                 "fields": null,
                 "items": null
-              },
-              {
-                "name": "AirlineIATA",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureDelay",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
               }
             ]
           }
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "id": "c7e22168-bc9b-4659-bd96-068e0b81f7e7",
+      "id": "3b360575-788c-42c5-af7d-0dbb9fa385da",
       "name": "Lakehouse",
       "type": "Lakehouse",
       "properties": {
@@ -157,6 +157,12 @@
                 "items": null
               },
               {
+                "name": "DepartureDelay",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
                 "name": "DepartureSched",
                 "type": "DateTime",
                 "fields": null,
@@ -169,7 +175,7 @@
                 "items": null
               },
               {
-                "name": "ArriivalSched",
+                "name": "ArrivalSched",
                 "type": "DateTime",
                 "fields": null,
                 "items": null
@@ -187,6 +193,12 @@
                 "items": null
               },
               {
+                "name": "AirlineIATA",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
                 "name": "FlightNumber",
                 "type": "Nvarchar(max)",
                 "fields": null,
@@ -195,18 +207,6 @@
               {
                 "name": "IngestedAt",
                 "type": "DateTime",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "AirlineIATA",
-                "type": "Nvarchar(max)",
-                "fields": null,
-                "items": null
-              },
-              {
-                "name": "DepartureDelay",
-                "type": "Nvarchar(max)",
                 "fields": null,
                 "items": null
               }
@@ -282,6 +282,25 @@
             "alias": "DepartureIATA"
           },
           {
+            "type": "FunctionCall",
+            "properties": {
+              "functionName": "Json_Stringify",
+              "arguments": [
+                {
+                  "expressionType": "ColumnReference",
+                  "node": null,
+                  "columnName": "departure",
+                  "columnPathSegments": [
+                    {
+                      "field": "delay"
+                    }
+                  ]
+                }
+              ]
+            },
+            "alias": "DepartureDelay"
+          },
+          {
             "type": "Cast",
             "properties": {
               "targetDataType": "DateTime",
@@ -329,7 +348,7 @@
                 ]
               }
             },
-            "alias": "ArriivalSched"
+            "alias": "ArrivalSched"
           },
           {
             "type": "FunctionCall",
@@ -372,6 +391,22 @@
               "column": {
                 "expressionType": "ColumnReference",
                 "node": null,
+                "columnName": "airline",
+                "columnPathSegments": [
+                  {
+                    "field": "iata"
+                  }
+                ]
+              }
+            },
+            "alias": "AirlineIATA"
+          },
+          {
+            "type": "Rename",
+            "properties": {
+              "column": {
+                "expressionType": "ColumnReference",
+                "node": null,
                 "columnName": "flight",
                 "columnPathSegments": [
                   {
@@ -394,41 +429,6 @@
               }
             },
             "alias": "IngestedAt"
-          },
-          {
-            "type": "Rename",
-            "properties": {
-              "column": {
-                "expressionType": "ColumnReference",
-                "node": null,
-                "columnName": "airline",
-                "columnPathSegments": [
-                  {
-                    "field": "iata"
-                  }
-                ]
-              }
-            },
-            "alias": "AirlineIATA"
-          },
-          {
-            "type": "FunctionCall",
-            "properties": {
-              "functionName": "Json_Stringify",
-              "arguments": [
-                {
-                  "expressionType": "ColumnReference",
-                  "node": null,
-                  "columnName": "departure",
-                  "columnPathSegments": [
-                    {
-                      "field": "delay"
-                    }
-                  ]
-                }
-              ]
-            },
-            "alias": "DepartureDelay"
           }
         ]
       },
@@ -479,8 +479,8 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Record",
-                    "fields": [],
+                    "type": "Nvarchar(max)",
+                    "fields": null,
                     "items": null
                   },
                   {
@@ -558,8 +558,8 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Record",
-                    "fields": [],
+                    "type": "Nvarchar(max)",
+                    "fields": null,
                     "items": null
                   },
                   {
