@@ -86,6 +86,7 @@ airlines_schema = StructType([
     StructField("iata_code", StringType()),
     StructField("icao_code", StringType()),
     StructField("name", StringType()),
+    StructField("alias", StringType()),
     StructField("country", StringType())
 ])
 
