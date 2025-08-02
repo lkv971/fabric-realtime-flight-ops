@@ -13,15 +13,440 @@
     "sourceQueryCulture": "en-US",
     "tables": [
       {
-        "name": "Flights(1)",
+        "name": "Airlines",
+        "sourceLineageTag": "[Aviation].[Airlines]",
+        "columns": [
+          {
+            "name": "AirlineKey",
+            "dataType": "int64",
+            "sourceColumn": "AirlineKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirlineKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IATACode",
+            "dataType": "string",
+            "sourceColumn": "IATACode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "IATACode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ICAOCode",
+            "dataType": "string",
+            "sourceColumn": "ICAOCode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ICAOCode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirlineName",
+            "dataType": "string",
+            "sourceColumn": "AirlineName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "AirlineName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "Airlines",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "Airports",
+        "sourceLineageTag": "[Aviation].[Airports]",
+        "columns": [
+          {
+            "name": "AirportKey",
+            "dataType": "int64",
+            "sourceColumn": "AirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IATACode",
+            "dataType": "string",
+            "sourceColumn": "IATACode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "IATACode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ICAOCode",
+            "dataType": "string",
+            "sourceColumn": "ICAOCode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ICAOCode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirportName",
+            "dataType": "string",
+            "sourceColumn": "AirportName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "AirportName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Latitude",
+            "dataType": "double",
+            "sourceColumn": "Latitude",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "Latitude",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "Longitude",
+            "dataType": "double",
+            "sourceColumn": "Longitude",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "Longitude",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "Elevation",
+            "dataType": "int64",
+            "sourceColumn": "Elevation",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Elevation",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "TimeZone",
+            "dataType": "string",
+            "sourceColumn": "TimeZone",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "TimeZone",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "City",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "State",
+            "dataType": "string",
+            "sourceColumn": "State",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "State",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "Airports",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "sourceLineageTag": "[Aviation].[Dates]",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "DateKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date",
+            "formatString": "General Date",
+            "sourceProviderType": "date",
+            "sourceLineageTag": "Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Year",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Month",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Day",
+            "dataType": "int64",
+            "sourceColumn": "Day",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Day",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "MonthName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DayName",
+            "dataType": "string",
+            "sourceColumn": "DayName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DayName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "Dates",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "Flights",
         "sourceLineageTag": "[Aviation].[Flights]",
         "columns": [
+          {
+            "name": "IngestedAt",
+            "dataType": "dateTime",
+            "sourceColumn": "IngestedAt",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "IngestedAt",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
           {
             "name": "FlightDate",
             "dataType": "dateTime",
             "sourceColumn": "FlightDate",
             "formatString": "General Date",
-            "sourceProviderType": "datetime2",
+            "sourceProviderType": "date",
             "sourceLineageTag": "FlightDate",
             "summarizeBy": "none",
             "annotations": [
@@ -32,40 +457,27 @@
             ]
           },
           {
-            "name": "Status",
-            "dataType": "string",
-            "sourceColumn": "Status",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "Status",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "DepartureIATA",
-            "dataType": "string",
-            "sourceColumn": "DepartureIATA",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "DepartureIATA",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "DepartureSched",
+            "name": "ScheduledDeparture",
             "dataType": "dateTime",
-            "sourceColumn": "DepartureSched",
+            "sourceColumn": "ScheduledDeparture",
             "formatString": "General Date",
             "sourceProviderType": "datetime2",
-            "sourceLineageTag": "DepartureSched",
+            "sourceLineageTag": "ScheduledDeparture",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ScheduledArrival",
+            "dataType": "dateTime",
+            "sourceColumn": "ScheduledArrival",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "ScheduledArrival",
             "summarizeBy": "none",
             "annotations": [
               {
@@ -76,40 +488,12 @@
           },
           {
             "name": "DepartureDelay",
-            "dataType": "string",
+            "dataType": "int64",
             "sourceColumn": "DepartureDelay",
-            "sourceProviderType": "varchar",
+            "formatString": "0",
+            "sourceProviderType": "int",
             "sourceLineageTag": "DepartureDelay",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "ArrivalIATA",
-            "dataType": "string",
-            "sourceColumn": "ArrivalIATA",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "ArrivalIATA",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "ArriivalSched",
-            "dataType": "dateTime",
-            "sourceColumn": "ArriivalSched",
-            "formatString": "General Date",
-            "sourceProviderType": "datetime2",
-            "sourceLineageTag": "ArriivalSched",
-            "summarizeBy": "none",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -119,11 +503,12 @@
           },
           {
             "name": "ArrivalDelay",
-            "dataType": "string",
+            "dataType": "int64",
             "sourceColumn": "ArrivalDelay",
-            "sourceProviderType": "varchar",
+            "formatString": "0",
+            "sourceProviderType": "int",
             "sourceLineageTag": "ArrivalDelay",
-            "summarizeBy": "none",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -132,12 +517,43 @@
             ]
           },
           {
-            "name": "Airline",
-            "dataType": "string",
-            "sourceColumn": "Airline",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "Airline",
-            "summarizeBy": "none",
+            "name": "DepartureAirportKey",
+            "dataType": "int64",
+            "sourceColumn": "DepartureAirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "DepartureAirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalAirportKey",
+            "dataType": "int64",
+            "sourceColumn": "ArrivalAirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "ArrivalAirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirlineKey",
+            "dataType": "int64",
+            "sourceColumn": "AirlineKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirlineKey",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -160,12 +576,11 @@
             ]
           },
           {
-            "name": "IngestedAt",
-            "dataType": "dateTime",
-            "sourceColumn": "IngestedAt",
-            "formatString": "General Date",
-            "sourceProviderType": "datetime2",
-            "sourceLineageTag": "IngestedAt",
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Status",
             "summarizeBy": "none",
             "annotations": [
               {
@@ -195,15 +610,440 @@
         ]
       },
       {
+        "name": "StagingAirlines",
+        "sourceLineageTag": "[Aviation].[StagingAirlines]",
+        "columns": [
+          {
+            "name": "AirlineKey",
+            "dataType": "int64",
+            "sourceColumn": "AirlineKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirlineKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IATACode",
+            "dataType": "string",
+            "sourceColumn": "IATACode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "IATACode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ICAOCode",
+            "dataType": "string",
+            "sourceColumn": "ICAOCode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ICAOCode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirlineName",
+            "dataType": "string",
+            "sourceColumn": "AirlineName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "AirlineName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "StagingAirlines",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "StagingAirports",
+        "sourceLineageTag": "[Aviation].[StagingAirports]",
+        "columns": [
+          {
+            "name": "AirportKey",
+            "dataType": "int64",
+            "sourceColumn": "AirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "IATACode",
+            "dataType": "string",
+            "sourceColumn": "IATACode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "IATACode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ICAOCode",
+            "dataType": "string",
+            "sourceColumn": "ICAOCode",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "ICAOCode",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirportName",
+            "dataType": "string",
+            "sourceColumn": "AirportName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "AirportName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Latitude",
+            "dataType": "double",
+            "sourceColumn": "Latitude",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "Latitude",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "Longitude",
+            "dataType": "double",
+            "sourceColumn": "Longitude",
+            "sourceProviderType": "float",
+            "sourceLineageTag": "Longitude",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ]
+          },
+          {
+            "name": "Elevation",
+            "dataType": "int64",
+            "sourceColumn": "Elevation",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Elevation",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "TimeZone",
+            "dataType": "string",
+            "sourceColumn": "TimeZone",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "TimeZone",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Country",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "City",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "State",
+            "dataType": "string",
+            "sourceColumn": "State",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "State",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "StagingAirports",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
+        "name": "StagingDates",
+        "sourceLineageTag": "[Aviation].[StagingDates]",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "DateKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date",
+            "formatString": "General Date",
+            "sourceProviderType": "date",
+            "sourceLineageTag": "Date",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Year",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Month",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "Day",
+            "dataType": "int64",
+            "sourceColumn": "Day",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "Day",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "MonthName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "DayName",
+            "dataType": "string",
+            "sourceColumn": "DayName",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "DayName",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "{{Partition_Name}}",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "StagingDates",
+              "expressionSource": "DatabaseQuery",
+              "schemaName": "Aviation"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "IsTableInBiModel",
+            "value": "False"
+          }
+        ]
+      },
+      {
         "name": "StagingFlights",
         "sourceLineageTag": "[Aviation].[StagingFlights]",
         "columns": [
+          {
+            "name": "IngestedAt",
+            "dataType": "dateTime",
+            "sourceColumn": "IngestedAt",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "IngestedAt",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
           {
             "name": "FlightDate",
             "dataType": "dateTime",
             "sourceColumn": "FlightDate",
             "formatString": "General Date",
-            "sourceProviderType": "datetime2",
+            "sourceProviderType": "date",
             "sourceLineageTag": "FlightDate",
             "summarizeBy": "none",
             "annotations": [
@@ -214,40 +1054,27 @@
             ]
           },
           {
-            "name": "Status",
-            "dataType": "string",
-            "sourceColumn": "Status",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "Status",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "DepartureIATA",
-            "dataType": "string",
-            "sourceColumn": "DepartureIATA",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "DepartureIATA",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "DepartureSched",
+            "name": "ScheduledDeparture",
             "dataType": "dateTime",
-            "sourceColumn": "DepartureSched",
+            "sourceColumn": "ScheduledDeparture",
             "formatString": "General Date",
             "sourceProviderType": "datetime2",
-            "sourceLineageTag": "DepartureSched",
+            "sourceLineageTag": "ScheduledDeparture",
+            "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ScheduledArrival",
+            "dataType": "dateTime",
+            "sourceColumn": "ScheduledArrival",
+            "formatString": "General Date",
+            "sourceProviderType": "datetime2",
+            "sourceLineageTag": "ScheduledArrival",
             "summarizeBy": "none",
             "annotations": [
               {
@@ -258,40 +1085,12 @@
           },
           {
             "name": "DepartureDelay",
-            "dataType": "string",
+            "dataType": "int64",
             "sourceColumn": "DepartureDelay",
-            "sourceProviderType": "varchar",
+            "formatString": "0",
+            "sourceProviderType": "int",
             "sourceLineageTag": "DepartureDelay",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "ArrivalIATA",
-            "dataType": "string",
-            "sourceColumn": "ArrivalIATA",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "ArrivalIATA",
-            "summarizeBy": "none",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ]
-          },
-          {
-            "name": "ArriivalSched",
-            "dataType": "dateTime",
-            "sourceColumn": "ArriivalSched",
-            "formatString": "General Date",
-            "sourceProviderType": "datetime2",
-            "sourceLineageTag": "ArriivalSched",
-            "summarizeBy": "none",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -301,11 +1100,12 @@
           },
           {
             "name": "ArrivalDelay",
-            "dataType": "string",
+            "dataType": "int64",
             "sourceColumn": "ArrivalDelay",
-            "sourceProviderType": "varchar",
+            "formatString": "0",
+            "sourceProviderType": "int",
             "sourceLineageTag": "ArrivalDelay",
-            "summarizeBy": "none",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -314,12 +1114,43 @@
             ]
           },
           {
-            "name": "Airline",
-            "dataType": "string",
-            "sourceColumn": "Airline",
-            "sourceProviderType": "varchar",
-            "sourceLineageTag": "Airline",
-            "summarizeBy": "none",
+            "name": "DepartureAirportKey",
+            "dataType": "int64",
+            "sourceColumn": "DepartureAirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "DepartureAirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "ArrivalAirportKey",
+            "dataType": "int64",
+            "sourceColumn": "ArrivalAirportKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "ArrivalAirportKey",
+            "summarizeBy": "sum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "AirlineKey",
+            "dataType": "int64",
+            "sourceColumn": "AirlineKey",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "AirlineKey",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -342,12 +1173,11 @@
             ]
           },
           {
-            "name": "IngestedAt",
-            "dataType": "dateTime",
-            "sourceColumn": "IngestedAt",
-            "formatString": "General Date",
-            "sourceProviderType": "datetime2",
-            "sourceLineageTag": "IngestedAt",
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sourceProviderType": "varchar",
+            "sourceLineageTag": "Status",
             "summarizeBy": "none",
             "annotations": [
               {
