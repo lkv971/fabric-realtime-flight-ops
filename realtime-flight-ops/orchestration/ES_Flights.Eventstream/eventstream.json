@@ -113,7 +113,7 @@
       ]
     },
     {
-      "id": "3b360575-788c-42c5-af7d-0dbb9fa385da",
+      "id": "d2e64ad0-943d-4550-b736-e56d97ff1d6c",
       "name": "Lakehouse",
       "type": "Lakehouse",
       "properties": {
@@ -479,8 +479,8 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Nvarchar(max)",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
@@ -558,8 +558,8 @@
                   },
                   {
                     "name": "terminal",
-                    "type": "Nvarchar(max)",
-                    "fields": null,
+                    "type": "Record",
+                    "fields": [],
                     "items": null
                   },
                   {
