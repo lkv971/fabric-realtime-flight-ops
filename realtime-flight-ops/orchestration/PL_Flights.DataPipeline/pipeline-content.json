@@ -1,0 +1,279 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "JsonSource",
+            "formatSettings": {
+              "type": "JsonReadSettings"
+            },
+            "storeSettings": {
+              "type": "LakehouseReadSettings",
+              "recursive": true,
+              "enablePartitionDiscovery": false
+            }
+          },
+          "datasetSettings": {
+            "type": "Json",
+            "typeProperties": {
+              "location": {
+                "type": "LakehouseLocation",
+                "folderPath": "watermarks",
+                "fileName": "Watermark.json"
+              }
+            },
+            "schema": {},
+            "linkedService": {
+              "name": "LH_Flights",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "df8eb261-3944-8883-4219-81d0d2e44b41",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000",
+                  "rootFolder": "Files"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "LookupLakehouseWatermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(ProcessedTime), \nCAST('1970-01-01 00:00:00.000' AS DATETIME2(3)))\nAS LastIngestedDate \nFROM Aviation.IngestionLogs;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "WH_Flights",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
+                  "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "LookupLastWarehouseLoad",
+        "dependsOn": [
+          {
+            "activity": "LookupLakehouseWatermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@greater(activity('LookupLakehouseWatermark').output.firstRow.lastModified, activity('LookupLastWarehouseLoad').output.firstRow.lastIngestedDate)",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "fe8b80a9-5a67-8caa-4ae5-ed1bef8c117d",
+                "workspaceId": "00000000-0000-0000-0000-000000000000"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "TransformNotebook",
+              "dependsOn": []
+            },
+            {
+              "type": "Script",
+              "typeProperties": {
+                "scripts": [
+                  {
+                    "text": {
+                      "value": "DROP VIEW IF EXISTS Aviation.StagingAirports;\r\nEXEC('CREATE VIEW Aviation.StagingAirports\r\nAS SELECT DISTINCT AirportKey, IATACode, ICAOCode, AirportName, Latitude, Longitude, Elevation, TimeZone, Country, City, State\r\nFROM LH_Flights.dbo.dimairports;');\r\n\r\nDROP VIEW IF EXISTS Aviation.StagingAirlines;\r\nEXEC('CREATE VIEW Aviation.StagingAirlines\r\nAS SELECT DISTINCT AirlineKey, IATACode, ICAOCode, AirlineName, Country\r\nFROM LH_Flights.dbo.dimairlines;');\r\n\r\nDROP VIEW IF EXISTS Aviation.StagingDates;\r\nEXEC('CREATE VIEW Aviation.StagingDates\r\nAS SELECT DISTINCT DateKey, Date, Year, Month, Day, MonthName, DayName\r\nFROM LH_Flights.dbo.dimdates;');\r\n\r\nDROP VIEW IF EXISTS Aviation.StagingFlights;\r\nEXEC('CREATE VIEW Aviation.StagingFlights\r\nAS SELECT DISTINCT IngestedAt, FlightDate, ScheduledDeparture, ScheduledArrival, DepartureDelay, ArrivalDelay, DepartureAirportKey, ArrivalAirportKey, AirlineKey, FlightNumber, Status\r\nFROM LH_Flights.dbo.factflights;');\r\n",
+                      "type": "Expression"
+                    },
+                    "type": "NonQuery"
+                  }
+                ],
+                "scriptBlockExecutionTimeout": "02:00:00"
+              },
+              "linkedService": {
+                "name": "WH_Flights",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
+                    "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "RefreshStagingViews",
+              "dependsOn": [
+                {
+                  "activity": "TransformNotebook",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SqlServerStoredProcedure",
+              "typeProperties": {
+                "storedProcedureName": "[Aviation].[InsertFlightsProc]"
+              },
+              "linkedService": {
+                "name": "WH_Flights",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
+                    "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "UpsertDimRefreshFact",
+              "dependsOn": [
+                {
+                  "activity": "RefreshStagingViews",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "397e9057-0593-b314-4016-07bae338df8c",
+                "workspaceId": "00000000-0000-0000-0000-000000000000"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "UpdateLakehouseWatermark",
+              "dependsOn": [
+                {
+                  "activity": "UpsertDimRefreshFact",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Script",
+              "typeProperties": {
+                "scripts": [
+                  {
+                    "text": {
+                      "value": "INSERT INTO Aviation.IngestionLogs (PipelineName, ProcessedTime, Status)\nVALUES ('PL_Flights', SYSUTCDATETIME(), 'Succeeded');",
+                      "type": "Expression"
+                    },
+                    "type": "NonQuery"
+                  }
+                ],
+                "scriptBlockExecutionTimeout": "02:00:00"
+              },
+              "linkedService": {
+                "name": "WH_Flights",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
+                    "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "UpdateIngestionLogs",
+              "dependsOn": [
+                {
+                  "activity": "UpdateLakehouseWatermark",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ],
+          "ifFalseActivities": []
+        },
+        "name": "IfNewDataExists",
+        "dependsOn": [
+          {
+            "activity": "LookupLastWarehouseLoad",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

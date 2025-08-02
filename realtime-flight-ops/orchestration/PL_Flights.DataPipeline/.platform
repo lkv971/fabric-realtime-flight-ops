@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_Flights"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6e0d3856-5756-9c7b-4e94-d3228def9c1c"
+  }
+}
