@@ -1,0 +1,9 @@
+role 'East Coast Analyst'
+	modelPermission: read
+
+	tablePermission 'Arrival Airports' = [State] IN {"New York","Massachusetts","Connecticut","New Jersey","Pennsylvania","Virginia","Florida"}
+
+	tablePermission 'Departure Airports' = [State] IN {"New York", "Massachusetts", "Connecticut", "New Jersey", "Pennsylvania", "Virginia", "Florida"}
+
+	annotation PBI_Id = 06343712066a4278be42b5243c57aa38
+

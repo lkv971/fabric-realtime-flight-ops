@@ -1,0 +1,15 @@
+role Executive
+	modelPermission: read
+
+	tablePermission Airlines = TRUE()
+
+	tablePermission 'Arrival Airports' = TRUE()
+
+	tablePermission Dates = TRUE()
+
+	tablePermission 'Departure Airports' = TRUE()
+
+	tablePermission Flights = TRUE()
+
+	annotation PBI_Id = 32fd9d8ab8fa4ff587faf2a9a5fd382e
+

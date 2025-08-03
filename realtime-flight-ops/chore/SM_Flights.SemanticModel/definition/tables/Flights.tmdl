@@ -1,0 +1,391 @@
+table Flights
+	lineageTag: 368d6c99-012c-4240-b7b0-60771d0aa322
+	sourceLineageTag: [Aviation].[Flights]
+
+	measure 'Departure On Time %' =
+			
+			VAR TotalFlights = COUNTROWS(Flights)
+			VAR OnTimeFlights = CALCULATE(COUNTROWS(Flights), Flights[Departure Delay] <= 15)
+			RETURN DIVIDE(OnTimeFlights, TotalFlights, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Performances
+		lineageTag: dc03c9ae-a293-47bd-ae88-adf87f5337b1
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Arrival On Time %' =
+			
+			VAR TotalFlights = COUNTROWS(Flights)
+			VAR OnTimeFlights = CALCULATE(COUNTROWS(Flights), Flights[Arrival Delay] <= 15)
+			RETURN DIVIDE(OnTimeFlights, TotalFlights, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Performances
+		lineageTag: 791c4848-81ff-4631-906e-df4cffaf6f14
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Average Departure Delay (min)' = AVERAGE(Flights[Departure Delay])
+		displayFolder: Delays
+		lineageTag: e1c7f6b1-71ff-4b5f-ae83-0fba9fffeca5
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Arrival Delay (min)' = AVERAGE(Flights[Arrival Delay])
+		displayFolder: Delays
+		lineageTag: 8946bf2b-c76f-4475-8c58-3d233d0bf28e
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Delay (min)' = SUM(Flights[Departure Delay]) + SUM(Flights[Arrival Delay])
+		formatString: 0
+		displayFolder: Delays
+		lineageTag: 6c140f2d-5cac-42a1-80f0-96f188b0277f
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Route Capacity %' =
+			
+			VAR ScheduledFlights = CALCULATE(COUNTROWS(Flights), Flights[Status] IN {"scheduled", "active"})
+			VAR CancelledFlights = CALCULATE(COUNTROWS(Flights), Flights[Status] = "cancelled")
+			RETURN DIVIDE(ScheduledFlights - CancelledFlights, ScheduledFlights, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Capacity
+		lineageTag: f54fe241-fc3f-4456-ae4f-a929c4121e00
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Cancellation Rate %' =
+			
+			VAR TotalFlights = COUNTROWS(Flights)
+			VAR CancelledFlights = CALCULATE(COUNTROWS(Flights), Flights[Status] = "cancelled")
+			RETURN DIVIDE(CancelledFlights, TotalFlights, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Capacity
+		lineageTag: cf94105d-ea25-4e49-b52e-3e8c70085265
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'MoM Departure On Time %' =
+			
+			VAR CurrentMonthTime = [Departure On Time %]
+			VAR PreviousMonthTime = CALCULATE([Departure On Time %], PREVIOUSMONTH(Dates[Date]))
+			RETURN DIVIDE(CurrentMonthTime - PreviousMonthTime, PreviousMonthTime, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Time Intelligence
+		lineageTag: c8321f5f-009f-4d1c-ba83-36e7a8283266
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'YoY Departure On Time %' =
+			
+			VAR CurrentYearTime = [Departure On Time %]
+			VAR PreviousYearTime = CALCULATE([Departure On Time %], SAMEPERIODLASTYEAR(Dates[Date]))
+			RETURN DIVIDE(CurrentYearTime - PreviousYearTime, PreviousYearTime, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Time Intelligence
+		lineageTag: 47cac10a-bdb5-45ff-9efd-736e65d8e762
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'YTD Departure On Time %' = TOTALYTD([Departure On Time %], Dates[Date])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Time Intelligence
+		lineageTag: 4e654279-9a1e-4766-8ea2-d56f152d8cf2
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'Total Flights' = COUNTROWS(Flights)
+		formatString: 0
+		displayFolder: Capacity
+		lineageTag: 2f43fe9d-a0ff-4771-a895-5ffd7282eca0
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'MoM Flights %' =
+			
+			VAR CurrentFlights = [Total Flights]
+			VAR PreviousMonthFlights = CALCULATE([Total Flights], PREVIOUSMONTH(Dates[Date]))
+			RETURN DIVIDE(CurrentFlights - PreviousMonthFlights, PreviousMonthFlights)
+		formatString: 0%;-0%;0%
+		displayFolder: Time Intelligence
+		lineageTag: b789c337-9df7-4918-a41d-d135e1da0a29
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+	measure 'MTD Flights' = TOTALMTD([Total Flights], Dates[Date])
+		formatString: 0
+		displayFolder: Time Intelligence
+		lineageTag: b5ab4dca-0c85-43e8-9462-980ef1fd1f35
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'YTD Flights' = TOTALYTD([Total Flights], Dates[Date])
+		formatString: 0
+		displayFolder: Time Intelligence
+		lineageTag: c65ee76f-bc88-4761-bda5-0817a1b0d4fe
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Flight Duration' = ```
+			
+			VAR DepartureTime = MIN(Flights[Scheduled Departure])
+			VAR ArrivalTime = MAX(Flights[Scheduled Arrival])
+			VAR DurationMinutes = 
+			    DATEDIFF(
+			        TIME(HOUR(DepartureTime), MINUTE(DepartureTime), SECOND(DepartureTime)),
+			        TIME(HOUR(ArrivalTime), MINUTE(ArrivalTime), SECOND(ArrivalTime)),
+			        MINUTE
+			    )
+			RETURN
+			    IF(
+			        DurationMinutes >= 0,
+			        DurationMinutes,
+			        DurationMinutes + 1440  
+			    )
+			```
+		formatString: 0
+		displayFolder: Route Analysis
+		lineageTag: 64927d78-d1d6-4385-b668-9e6223bd49fc
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+	measure 'Average Flight Duration' = AVERAGEX(Flights, [Flight Duration])
+		displayFolder: Route Analysis
+		lineageTag: 91a4fc95-bfd8-497d-bf6d-9934f4520c73
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Ingestion Date'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 9fd2ab0a-8713-4cc8-8aa8-3cf94deb23bd
+		sourceLineageTag: IngestedAt
+		summarizeBy: none
+		sourceColumn: IngestedAt
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flight Date'
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: fc3c31a4-3ced-48cc-a178-4b971f28e59d
+		sourceLineageTag: FlightDate
+		summarizeBy: none
+		sourceColumn: FlightDate
+
+		changedProperty = Name
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'Scheduled Departure'
+		dataType: dateTime
+		formatString: Long Time
+		sourceProviderType: datetime2
+		lineageTag: 8f0544be-f4c9-4920-9a76-9284f9591819
+		sourceLineageTag: ScheduledDeparture
+		summarizeBy: none
+		sourceColumn: ScheduledDeparture
+
+		changedProperty = Name
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Scheduled Arrival'
+		dataType: dateTime
+		formatString: Long Time
+		sourceProviderType: datetime2
+		lineageTag: e2c9313b-76fe-4b69-8b8a-f55bd69f247f
+		sourceLineageTag: ScheduledArrival
+		summarizeBy: none
+		sourceColumn: ScheduledArrival
+
+		changedProperty = DataType
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Departure Delay'
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 302dc5e7-81ac-407c-846e-613838eb3e55
+		sourceLineageTag: DepartureDelay
+		summarizeBy: none
+		sourceColumn: DepartureDelay
+
+		changedProperty = SummarizeBy
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = User
+
+	column 'Arrival Delay'
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: bf775d5d-0248-4f9b-b6c3-129db45fb6c3
+		sourceLineageTag: ArrivalDelay
+		summarizeBy: none
+		sourceColumn: ArrivalDelay
+
+		changedProperty = SummarizeBy
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = User
+
+	column 'Departure Airport Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 6f9ee8fe-239c-4326-8f4c-78bba5229fe1
+		sourceLineageTag: DepartureAirportKey
+		summarizeBy: none
+		sourceColumn: DepartureAirportKey
+
+		changedProperty = IsHidden
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Arrival Airport Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1570a7c5-a873-4138-a581-371f53cfe0b6
+		sourceLineageTag: ArrivalAirportKey
+		summarizeBy: none
+		sourceColumn: ArrivalAirportKey
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Airline Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8be4fe99-226c-4f13-8fb1-62a24d4a43a3
+		sourceLineageTag: AirlineKey
+		summarizeBy: none
+		sourceColumn: AirlineKey
+
+		changedProperty = Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flight Number'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 424cd06d-45df-4b24-8d8b-b43603f13b94
+		sourceLineageTag: FlightNumber
+		summarizeBy: none
+		sourceColumn: FlightNumber
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 69084622-f43c-49b1-89e4-9160f9c091c9
+		sourceLineageTag: Status
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Flights = entity
+		mode: directLake
+		source
+			entityName: Flights
+			schemaName: Aviation
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

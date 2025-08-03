@@ -1,0 +1,9 @@
+role 'West Coast Analyst'
+	modelPermission: read
+
+	tablePermission 'Arrival Airports' = [State] IN {"California", "Oregon", "Washington", "Nevada", "Arizona"}
+
+	tablePermission 'Departure Airports' = [State] IN {"California", "Oregon", "Washington", "Nevada", "Arizona"}
+
+	annotation PBI_Id = 6fa01c5bb35d40bfbaf5cb5337bc64ce
+

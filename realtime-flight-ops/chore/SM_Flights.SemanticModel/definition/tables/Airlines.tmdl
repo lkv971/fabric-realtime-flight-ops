@@ -1,0 +1,78 @@
+table Airlines
+	lineageTag: 5ab608b3-613a-4074-8aa7-66baad9e759b
+	sourceLineageTag: [Aviation].[Airlines]
+
+	column 'Airline Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 79f23b42-d7d1-4d17-b249-878216c4d9ac
+		sourceLineageTag: AirlineKey
+		summarizeBy: none
+		sourceColumn: AirlineKey
+
+		changedProperty = IsHidden
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IATA Code'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 2b564762-a192-4263-89c9-35254e8195fe
+		sourceLineageTag: IATACode
+		summarizeBy: none
+		sourceColumn: IATACode
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ICAO Code'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 420746c3-3b98-4e4c-9d76-2d0d14d4be7f
+		sourceLineageTag: ICAOCode
+		summarizeBy: none
+		sourceColumn: ICAOCode
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Airline Name'
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: ee1e8d90-79a5-4278-a098-61e6ce099c76
+		sourceLineageTag: AirlineName
+		summarizeBy: none
+		sourceColumn: AirlineName
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 605da43e-2085-468c-9939-cf1ab89b9904
+		sourceLineageTag: Country
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Airlines = entity
+		mode: directLake
+		source
+			entityName: Airlines
+			schemaName: Aviation
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

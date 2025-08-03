@@ -1,0 +1,9 @@
+role 'Midwest Analyst'
+	modelPermission: read
+
+	tablePermission 'Departure Airports' = [State] IN {"Ilinois", "Ohio", "Michigan", "Indiana", "Wisconsin", "Minnesota", "Iowa", "Missouri"}
+
+	tablePermission 'Arrival Airports' = [State] IN {"Ilinois", "Ohio", "Michigan", "Indiana", "Wisconsin", "Minnesota", "Iowa", "Missouri"}
+
+	annotation PBI_Id = eb15b761bbb84eb49d5e2f9ac861af3c
+

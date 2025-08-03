@@ -1,0 +1,180 @@
+table 'Departure Airports'
+	lineageTag: 2d7ac0e7-62fc-46bb-b2e8-f072ebdfafff
+	sourceLineageTag: [Aviation].[DepartureAirports]
+
+	column 'Airport Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 7167223a-8211-4d64-ae7a-71417039060c
+		sourceLineageTag: AirportKey
+		summarizeBy: none
+		sourceColumn: AirportKey
+
+		changedProperty = IsHidden
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IATA Code'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 4085d7d4-2cc3-48b0-8afc-cc6fadf295dc
+		sourceLineageTag: IATACode
+		summarizeBy: none
+		sourceColumn: IATACode
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ICAO Code'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: b4564134-acd0-4bcc-be19-f534fbb14353
+		sourceLineageTag: ICAOCode
+		summarizeBy: none
+		sourceColumn: ICAOCode
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Airport Name'
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 70e09470-d2bf-4c6c-8bdf-f37e132fcdbc
+		sourceLineageTag: AirportName
+		summarizeBy: none
+		sourceColumn: AirportName
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 1e764c0c-7677-4a77-b3cb-f2a205191c08
+		sourceLineageTag: Latitude
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 6f84e222-ab62-4fe7-8398-14b81e084307
+		sourceLineageTag: Longitude
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Elevation
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5dbd9986-a3e1-4486-a500-c1b6cce5d3e1
+		sourceLineageTag: Elevation
+		summarizeBy: none
+		sourceColumn: Elevation
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Zone'
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 4e93188f-6a1a-4598-ac52-763fb3864d32
+		sourceLineageTag: TimeZone
+		summarizeBy: none
+		sourceColumn: TimeZone
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 4b8dde86-cf3e-4c64-9a98-6ff796a72a31
+		sourceLineageTag: Country
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: 43b6da3f-afcb-418f-a714-ce2cf805e7fc
+		sourceLineageTag: City
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: City
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		sourceProviderType: varchar(100)
+		lineageTag: e7c4c4e6-833c-4f72-b40d-d4cdc32de542
+		sourceLineageTag: State
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		changedProperty = DataCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Departure Airport Hierarchy'
+		lineageTag: f1914fff-ae1a-47e7-b1b9-01f6dd5b1f90
+
+		level Country
+			lineageTag: a00e06aa-bcd5-4a59-a946-dd333c86d63f
+			column: Country
+
+		level State
+			lineageTag: e8f09598-8b4f-4b29-829c-97a2a5bfba4d
+			column: State
+
+		level City
+			lineageTag: 597b4610-4e58-4656-a92c-2832b1b89e7b
+			column: City
+
+		level 'Airport Name'
+			lineageTag: 3d7d49fe-b008-4554-8355-99b8aa4432fa
+			column: 'Airport Name'
+
+		changedProperty = Name
+
+	partition 'Departure Airports' = entity
+		mode: directLake
+		source
+			entityName: DepartureAirports
+			schemaName: Aviation
+			expressionSource: DatabaseQuery
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

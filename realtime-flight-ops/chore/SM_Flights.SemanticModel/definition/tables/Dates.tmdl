@@ -1,0 +1,130 @@
+table Dates
+	lineageTag: cb28af60-190d-4e77-aca2-726f5b5ea01e
+	sourceLineageTag: [Aviation].[Dates]
+	dataCategory: Time
+
+	column 'Date Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: bad0523e-d4df-4b7d-afc0-68b7074ed8b3
+		sourceLineageTag: DateKey
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		changedProperty = IsHidden
+
+		changedProperty = Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 02e155e1-a030-49c9-977d-50da1072a04a
+		sourceLineageTag: Date
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 94d9864f-3b70-44b8-82ad-7ca369087c1a
+		sourceLineageTag: Year
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ea3723c5-b2a6-4e7a-8699-9cf0cccdb3a8
+		sourceLineageTag: Month
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 84a74737-466b-42e5-b6aa-498746a17e09
+		sourceLineageTag: Day
+		summarizeBy: none
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 455da804-eab3-4181-81fa-c8fce5c42090
+		sourceLineageTag: MonthName
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: Month
+
+		changedProperty = Name
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 7b084c82-6c43-4671-a58c-dba27f6100e4
+		sourceLineageTag: DayName
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: Day
+
+		changedProperty = Name
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Date Hierarchy'
+		lineageTag: e3411ffa-ae74-46ec-853a-9c1283dd3b3c
+
+		level Year
+			lineageTag: 65dbcec7-6daa-43ee-af8f-3c463eabb277
+			column: Year
+
+		level 'Month Name'
+			lineageTag: 5a22e8f6-c48a-4ba5-9987-e88cd73c213f
+			column: 'Month Name'
+
+		level 'Day Name'
+			lineageTag: cfe78cc2-cc03-4e2e-9813-b4580e1c5cc7
+			column: 'Day Name'
+
+		changedProperty = Name
+
+	partition Dates = entity
+		mode: directLake
+		source
+			entityName: Dates
+			schemaName: Aviation
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

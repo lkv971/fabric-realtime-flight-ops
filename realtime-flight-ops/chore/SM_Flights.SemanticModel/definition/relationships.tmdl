@@ -1,0 +1,16 @@
+relationship dc966a9b-6954-ac91-1b19-153df7ade5a4
+	fromColumn: Flights.'Flight Date'
+	toColumn: Dates.Date
+
+relationship f3176092-4bf3-5895-c1ec-5e0eacf1b199
+	fromColumn: Flights.'Airline Key'
+	toColumn: Airlines.'Airline Key'
+
+relationship b390d5bf-3c30-430e-b381-0d057b340ff5
+	fromColumn: Flights.'Arrival Airport Key'
+	toColumn: 'Arrival Airports'.AirportKey
+
+relationship 1eadd790-8f96-7239-5e13-350194ea4d4f
+	fromColumn: Flights.'Departure Airport Key'
+	toColumn: 'Departure Airports'.'Airport Key'
+
