@@ -990,11 +990,11 @@
         "sourceLineageTag": "[Aviation].[IngestionLogs]",
         "columns": [
           {
-            "name": "PipelineName",
+            "name": "TableName",
             "dataType": "string",
-            "sourceColumn": "PipelineName",
+            "sourceColumn": "TableName",
             "sourceProviderType": "varchar",
-            "sourceLineageTag": "PipelineName",
+            "sourceLineageTag": "TableName",
             "summarizeBy": "none",
             "annotations": [
               {
@@ -1011,6 +1011,21 @@
             "sourceProviderType": "datetime2",
             "sourceLineageTag": "ProcessedTime",
             "summarizeBy": "none",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ]
+          },
+          {
+            "name": "RecordCount",
+            "dataType": "int64",
+            "sourceColumn": "RecordCount",
+            "formatString": "0",
+            "sourceProviderType": "int",
+            "sourceLineageTag": "RecordCount",
+            "summarizeBy": "sum",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
