@@ -2,7 +2,7 @@ table Flights
 	lineageTag: 368d6c99-012c-4240-b7b0-60771d0aa322
 	sourceLineageTag: [Aviation].[Flights]
 
-	measure 'Departure On Time %' =
+	measure 'On Time %' =
 			
 			VAR TotalFlights = COUNTROWS(Flights)
 			VAR OnTimeFlights = CALCULATE(COUNTROWS(Flights), Flights[Departure Delay] <= 15)
@@ -32,7 +32,7 @@ table Flights
 
 		changedProperty = FormatString
 
-	measure 'Average Departure Delay (min)' = AVERAGE(Flights[Departure Delay])
+	measure 'Average Delay (min)' = AVERAGE(Flights[Departure Delay])
 		displayFolder: Delays
 		lineageTag: e1c7f6b1-71ff-4b5f-ae83-0fba9fffeca5
 
@@ -76,11 +76,11 @@ table Flights
 
 		changedProperty = FormatString
 
-	measure 'Cancellation Rate %' =
+	measure 'Cancelation Rate %' =
 			
 			VAR TotalFlights = COUNTROWS(Flights)
-			VAR CancelledFlights = CALCULATE(COUNTROWS(Flights), Flights[Status] = "cancelled")
-			RETURN DIVIDE(CancelledFlights, TotalFlights, 0)
+			VAR CanceledFlights = CALCULATE(COUNTROWS(Flights),Flights[Status] = "cancelled")
+			RETURN DIVIDE(CanceledFlights, TotalFlights, 0)
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Capacity
 		lineageTag: cf94105d-ea25-4e49-b52e-3e8c70085265
@@ -93,8 +93,8 @@ table Flights
 
 	measure 'MoM Departure On Time %' =
 			
-			VAR CurrentMonthTime = [Departure On Time %]
-			VAR PreviousMonthTime = CALCULATE([Departure On Time %], PREVIOUSMONTH(Dates[Date]))
+			VAR CurrentMonthTime = [On Time %]
+			VAR PreviousMonthTime = CALCULATE([On Time %], PREVIOUSMONTH(Dates[Date]))
 			RETURN DIVIDE(CurrentMonthTime - PreviousMonthTime, PreviousMonthTime, 0)
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Time Intelligence
@@ -108,8 +108,8 @@ table Flights
 
 	measure 'YoY Departure On Time %' =
 			
-			VAR CurrentYearTime = [Departure On Time %]
-			VAR PreviousYearTime = CALCULATE([Departure On Time %], SAMEPERIODLASTYEAR(Dates[Date]))
+			VAR CurrentYearTime = [On Time %]
+			VAR PreviousYearTime = CALCULATE([On Time %], SAMEPERIODLASTYEAR(Dates[Date]))
 			RETURN DIVIDE(CurrentYearTime - PreviousYearTime, PreviousYearTime, 0)
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Time Intelligence
@@ -121,7 +121,7 @@ table Flights
 
 		changedProperty = FormatString
 
-	measure 'YTD Departure On Time %' = TOTALYTD([Departure On Time %], Dates[Date])
+	measure 'YTD Departure On Time %' = TOTALYTD([On Time %], Dates[Date])
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: Time Intelligence
 		lineageTag: 4e654279-9a1e-4766-8ea2-d56f152d8cf2
@@ -208,6 +208,36 @@ table Flights
 		changedProperty = DisplayFolder
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cancelation Rate Today %' = CALCULATE([Cancelation Rate %], Dates[Date] = TODAY())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Capacity
+		lineageTag: 7300340e-2b4e-4dbe-bb34-3c60ee4f0004
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+	measure 'Average Flight Duration Today' = CALCULATE([Average Flight Duration], Dates[Date] = TODAY())
+		displayFolder: Route Analysis
+		lineageTag: dd5070e9-7a4f-41c7-8dd3-f5bdfac17703
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Flights Today' = CALCULATE([Total Flights], Dates[Date])
+		formatString: 0
+		displayFolder: Capacity
+		lineageTag: 96836722-a63d-4d36-b5ae-707a5d6c5441
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
 
 	column 'Ingestion Date'
 		dataType: dateTime
