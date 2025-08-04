@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "FlightOpsCenter"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "696d96a3-806f-a737-43cc-a1b90e650306"
+  }
+}
