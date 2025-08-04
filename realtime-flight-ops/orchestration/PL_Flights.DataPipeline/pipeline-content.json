@@ -2,103 +2,10 @@
   "properties": {
     "activities": [
       {
-        "type": "Lookup",
-        "typeProperties": {
-          "source": {
-            "type": "JsonSource",
-            "formatSettings": {
-              "type": "JsonReadSettings"
-            },
-            "storeSettings": {
-              "type": "LakehouseReadSettings",
-              "recursive": true,
-              "enablePartitionDiscovery": false
-            }
-          },
-          "datasetSettings": {
-            "type": "Json",
-            "typeProperties": {
-              "location": {
-                "type": "LakehouseLocation",
-                "folderPath": "watermarks",
-                "fileName": "Watermark.json"
-              }
-            },
-            "schema": {},
-            "linkedService": {
-              "name": "LH_Flights",
-              "properties": {
-                "type": "Lakehouse",
-                "typeProperties": {
-                  "artifactId": "df8eb261-3944-8883-4219-81d0d2e44b41",
-                  "workspaceId": "00000000-0000-0000-0000-000000000000",
-                  "rootFolder": "Files"
-                },
-                "annotations": []
-              }
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "LookupLakehouseWatermark",
-        "dependsOn": []
-      },
-      {
-        "type": "Lookup",
-        "typeProperties": {
-          "source": {
-            "type": "DataWarehouseSource",
-            "sqlReaderQuery": "SELECT COALESCE(MAX(ProcessedTime), \nCAST('1970-01-01 00:00:00.000' AS DATETIME2(3)))\nAS LastIngestedDate \nFROM Aviation.IngestionLogs;",
-            "partitionOption": "None",
-            "queryTimeout": "02:00:00"
-          },
-          "datasetSettings": {
-            "type": "DataWarehouseTable",
-            "schema": [],
-            "linkedService": {
-              "name": "WH_Flights",
-              "properties": {
-                "type": "DataWarehouse",
-                "typeProperties": {
-                  "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
-                  "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
-                  "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
-                },
-                "annotations": []
-              }
-            },
-            "annotations": []
-          }
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "LookupLastWarehouseLoad",
-        "dependsOn": [
-          {
-            "activity": "LookupLakehouseWatermark",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
-      },
-      {
         "type": "IfCondition",
         "typeProperties": {
           "expression": {
-            "value": "@greater(activity('LookupLakehouseWatermark').output.firstRow.lastModified, activity('LookupLastWarehouseLoad').output.firstRow.lastIngestedDate)",
+            "value": "@greater(\n  activity('GetLakehouseWatermark').output.result.exitValue,\n  activity('GetWarehouseWatermark').output.firstRow.LastIngestedDate\n)\n",
             "type": "Expression"
           },
           "ifTrueActivities": [
@@ -196,35 +103,12 @@
               ]
             },
             {
-              "type": "TridentNotebook",
-              "typeProperties": {
-                "notebookId": "397e9057-0593-b314-4016-07bae338df8c",
-                "workspaceId": "00000000-0000-0000-0000-000000000000"
-              },
-              "policy": {
-                "timeout": "0.12:00:00",
-                "retry": 0,
-                "retryIntervalInSeconds": 30,
-                "secureInput": false,
-                "secureOutput": false
-              },
-              "name": "UpdateLakehouseWatermark",
-              "dependsOn": [
-                {
-                  "activity": "UpsertDimRefreshFact",
-                  "dependencyConditions": [
-                    "Succeeded"
-                  ]
-                }
-              ]
-            },
-            {
               "type": "Script",
               "typeProperties": {
                 "scripts": [
                   {
                     "text": {
-                      "value": "INSERT INTO Aviation.IngestionLogs (PipelineName, ProcessedTime, Status)\nVALUES ('PL_Flights', SYSUTCDATETIME(), 'Succeeded');",
+                      "value": "INSERT INTO Aviation.IngestionLogs\n  (TableName, ProcessedTime, RecordCount, Status)\nSELECT\n  'flights' AS TableName,\n  MAX(IngestedAt) AS ProcessedTime,  \n  COUNT(*) AS RecordCount,\n  'Succeeded' AS Status\nFROM LH_Flights.dbo.flights\nWHERE IngestedAt > (\n    SELECT COALESCE(MAX(ProcessedTime), '1900-01-01T00:00:00.000')\n    FROM Aviation.IngestionLogs\n    WHERE TableName = 'flights'\n);",
                       "type": "Expression"
                     },
                     "type": "NonQuery"
@@ -254,7 +138,7 @@
               "name": "UpdateIngestionLogs",
               "dependsOn": [
                 {
-                  "activity": "UpdateLakehouseWatermark",
+                  "activity": "UpsertDimRefreshFact",
                   "dependencyConditions": [
                     "Succeeded"
                   ]
@@ -267,7 +151,67 @@
         "name": "IfNewDataExists",
         "dependsOn": [
           {
-            "activity": "LookupLastWarehouseLoad",
+            "activity": "GetWarehouseWatermark",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "dba4db37-4abe-afcf-4870-7c31b30cd4e1",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "GetLakehouseWatermark",
+        "dependsOn": []
+      },
+      {
+        "type": "Lookup",
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(ProcessedTime), CAST('1970-01-01 00:00:00.00' AS DATETIME2(3)))\r\nAS LastIngestedDate\r\nFROM Aviation.IngestionLogs \r\n;",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "schema": [],
+            "linkedService": {
+              "name": "WH_Flights",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "artifactId": "a11bb1b3-a963-4d0f-80ff-9f63e140236f",
+                  "endpoint": "xisdbyhsv57ubp3vvd3oymv5ou-ygllrr4btvyuvprv76ktllayye.datawarehouse.fabric.microsoft.com",
+                  "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "GetWarehouseWatermark",
+        "dependsOn": [
+          {
+            "activity": "GetLakehouseWatermark",
             "dependencyConditions": [
               "Succeeded"
             ]
