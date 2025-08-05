@@ -8,5 +8,5 @@
     flights_raw
     | where IngestedAt > ago(1h)
     | extend DepartureDelay = toint(DepartureDelay), ArrivalDelay = toint(ArrivalDelay)
-    | project IngestedAt, FlightDate, Status, FlightNumber, Airline, DepartureIATA, DepartureSched, DepartureDelay, ArrivalIATA, ArriivalSched, ArrivalDelay
+    | project IngestedAt, FlightDate, Status, FlightNumber, Airline, DepartureIATA, DepartureSched, DepartureDelay, ArrivalIATA, ArrivalSched, ArrivalDelay
 }

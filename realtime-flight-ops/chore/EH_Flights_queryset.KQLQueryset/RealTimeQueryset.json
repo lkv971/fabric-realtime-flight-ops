@@ -4,16 +4,15 @@
     "dataSources": [
       {
         "id": "2cf0f120-3529-485d-8344-b68eb7bccd38",
-        "clusterUri": "",
-        "type": "Fabric",
-        "databaseItemId": "e72082f7-a9de-9b5c-4c5c-ae0337b7055a",
-        "databaseItemName": "EH_Flights"
+        "clusterUri": "https://trd-d2nhkra2e7z170vbsq.z9.kusto.fabric.microsoft.com",
+        "type": "AzureDataExplorer",
+        "databaseName": "EH_Flights"
       }
     ],
     "tabs": [
       {
         "id": "d519616f-b4bc-4362-a580-32903be4b7af",
-        "content": ".create-or-alter function flights_snapshot_fn() {\n    flights_raw\n    | where IngestedAt > ago(1h)\n    | extend DepartureDelay = toint(DepartureDelay), ArrivalDelay = toint(ArrivalDelay)\n    | project IngestedAt, FlightDate, Status, FlightNumber, Airline, DepartureIATA, DepartureSched, DepartureDelay, ArrivalIATA, ArriivalSched, ArrivalDelay\n}\n\n.set-or-append flights_flagged <|\nflights_snapshot_fn\n| where DepartureDelay > 15 or ArrivalDelay > 15\n| project IngestedAt, FlightNumber, Airline, Status, DepartureIATA, DepartureDelay, ArrivalIATA, ArrivalDelay\n\nflights_snapshot_fn\n| summarize Count = count() by Status\n\nflights_snapshot_fn\n| where Status == \"scheduled\"\n| project FlightNumber, Airline, DepartureIATA, ArrivalIATA, DepartureTime = format_datetime(DepartureSched, \"HH:mm\")\n| order by DepartureTime asc\n\nflights_snapshot_fn()\n| extend IsDelayed = iif(DepartureDelay > 15, \"Delayed\", \"OnTime\")\n| summarize DelayCount = count() by TimeBucket = bin(IngestedAt, 30m), IsDelayed\n| order by TimeBucket asc\n\nflights_flagged\n| project FlightNumber, Airline, DepartureDelay, ArrivalDelay\n| order by DepartureDelay desc \n\n\nflights_flagged\n| extend\n    DepartureDelay = toint(DepartureDelay),\n    ArrivalDelay = toint(ArrivalDelay)\n| extend\n    DepartureDelay = coalesce(DepartureDelay, 0),\n    ArrivalDelay = coalesce(ArrivalDelay, 0)\n| extend TotalDelay = DepartureDelay + ArrivalDelay\n| summarize AirlineAvgDelay = avg(TotalDelay) by Airline\n| top 10 by AirlineAvgDelay desc\n| project Airline, AirlineAvgDelay\n\n\n\n",
+        "content": ".create-or-alter function flights_snapshot_fn() {\n    flights_raw\n    | where IngestedAt > ago(1h)\n    | extend DepartureDelay = toint(DepartureDelay), ArrivalDelay = toint(ArrivalDelay)\n    | project IngestedAt, FlightDate, Status, FlightNumber, Airline, DepartureIATA, DepartureSched, DepartureDelay, ArrivalIATA, ArrivalSched, ArrivalDelay\n}\n\n.set-or-append flights_flagged <|\nflights_snapshot_fn\n| where DepartureDelay > 15 or ArrivalDelay > 15\n| project IngestedAt, FlightNumber, Airline, Status, DepartureIATA, DepartureDelay, ArrivalIATA, ArrivalDelay\n\nflights_snapshot_fn\n| summarize Count = count() by Status\n\nflights_snapshot_fn\n| where Status == \"scheduled\"\n| project FlightNumber, Airline, DepartureIATA, ArrivalIATA, DepartureTime = format_datetime(DepartureSched, \"HH:mm\")\n| order by DepartureTime asc\n\nflights_snapshot_fn()\n| extend IsDelayed = iif(DepartureDelay > 15, \"Delayed\", \"OnTime\")\n| summarize DelayCount = count() by TimeBucket = bin(IngestedAt, 30m), IsDelayed\n| order by TimeBucket asc\n\nflights_flagged\n| project FlightNumber, Airline, DepartureDelay, ArrivalDelay\n| order by DepartureDelay desc \n\n\nflights_flagged\n| extend\n    DepartureDelay = toint(DepartureDelay),\n    ArrivalDelay = toint(ArrivalDelay)\n| extend\n    DepartureDelay = coalesce(DepartureDelay, 0),\n    ArrivalDelay = coalesce(ArrivalDelay, 0)\n| extend TotalDelay = DepartureDelay + ArrivalDelay\n| summarize AirlineAvgDelay = avg(TotalDelay) by Airline\n| top 10 by AirlineAvgDelay desc\n| project Airline, AirlineAvgDelay\n\n\n\n",
         "title": "Flights_chore",
         "dataSourceId": "2cf0f120-3529-485d-8344-b68eb7bccd38"
       }
