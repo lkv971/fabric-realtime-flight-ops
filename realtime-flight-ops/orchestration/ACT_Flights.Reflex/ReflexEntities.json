@@ -1,0 +1,154 @@
+[
+  {
+    "uniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e",
+    "payload": {
+      "name": "Flight Ops Center",
+      "type": "kqlQueries"
+    },
+    "type": "container-v1"
+  },
+  {
+    "uniqueIdentifier": "aefd9bec-3486-4432-afcf-8a9308fc8f9c",
+    "payload": {
+      "name": "EH_Flights event",
+      "runSettings": {
+        "executionIntervalInSeconds": 3600
+      },
+      "query": {
+        "queryString": "flights_flagged\n| extend\n    DepartureDelay = toint(DepartureDelay),\n    ArrivalDelay = toint(ArrivalDelay)\n| extend\n    DepartureDelay = coalesce(DepartureDelay, 0),\n    ArrivalDelay = coalesce(ArrivalDelay, 0)\n| extend TotalDelay = DepartureDelay + ArrivalDelay\n| summarize AirlineAvgDelay = avg(TotalDelay) by Airline\n| top 10 by AirlineAvgDelay desc\n| project Airline, AirlineAvgDelay"
+      },
+      "eventhouseItem": {
+        "itemId": "e72082f7-a9de-9b5c-4c5c-ae0337b7055a",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemType": "KustoDatabase"
+      },
+      "queryParameters": [],
+      "metadata": {
+        "workspaceId": "c7b896c1-9d81-4a71-be35-ff9535ac18c1",
+        "measureName": "AirlineAvgDelay",
+        "dashboardId": "7210dd48-5272-4cf0-b24b-f1b9d2aa7aa2",
+        "visualId": "162883e5-8805-458b-932c-619ddfae98d1"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      }
+    },
+    "type": "kqlSource-v1"
+  },
+  {
+    "uniqueIdentifier": "ea3d60b6-a9eb-4429-97fd-fe63560fd31c",
+    "payload": {
+      "name": "EH_Flights event",
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Event",
+        "instance": "{\"templateId\":\"SourceEvent\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"SourceEventStep\",\"id\":\"b3332554-f544-474b-a856-f32a01eda711\",\"rows\":[{\"name\":\"SourceSelector\",\"kind\":\"SourceReference\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"aefd9bec-3486-4432-afcf-8a9308fc8f9c\"}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6",
+    "payload": {
+      "name": "Airline",
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Object"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "24a7dec5-0b9b-4e17-8cb8-1f650994f6bb",
+    "payload": {
+      "name": "Airline",
+      "parentObject": {
+        "targetUniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Attribute",
+        "instance": "{\"templateId\":\"IdentityPartAttribute\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"IdPartStep\",\"id\":\"96c87f36-56be-49a6-9057-88e83041b19a\",\"rows\":[{\"name\":\"TypeAssertion\",\"kind\":\"TypeAssertion\",\"arguments\":[{\"name\":\"op\",\"type\":\"string\",\"value\":\"Text\"},{\"name\":\"format\",\"type\":\"string\",\"value\":\"\"}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "1a2a645f-9685-41d2-846a-9f181c121325",
+    "payload": {
+      "name": "Airline tuple",
+      "parentObject": {
+        "targetUniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Attribute",
+        "instance": "{\"templateId\":\"IdentityTupleAttribute\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"IdStructureStep\",\"id\":\"2f75f108-387c-47e9-9ce1-61a27b711987\",\"rows\":[{\"name\":\"IdPart\",\"kind\":\"IdPart\",\"arguments\":[{\"kind\":\"AttributeReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"24a7dec5-0b9b-4e17-8cb8-1f650994f6bb\"}],\"name\":\"idPart\"}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "67ad95e4-663c-4859-abfb-d5c671a681fd",
+    "payload": {
+      "name": "EH_Flights event by Airline",
+      "parentObject": {
+        "targetUniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Event",
+        "instance": "{\"templateId\":\"SplitEvent\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"SplitEventStep\",\"id\":\"86f5e13f-00ee-4b57-a3c5-097b0e016e8f\",\"rows\":[{\"name\":\"EventSelector\",\"kind\":\"Event\",\"arguments\":[{\"kind\":\"EventReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"ea3d60b6-a9eb-4429-97fd-fe63560fd31c\"}],\"name\":\"event\"}]},{\"name\":\"FieldIdMapping\",\"kind\":\"FieldIdMapping\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"Airline\"},{\"kind\":\"AttributeReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"24a7dec5-0b9b-4e17-8cb8-1f650994f6bb\"}],\"name\":\"idPart\"}]},{\"name\":\"SplitEventOptions\",\"kind\":\"EventOptions\",\"arguments\":[{\"name\":\"isAuthoritative\",\"type\":\"boolean\",\"value\":true}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "a7826a05-d7b8-4886-8fa8-9036efeb4022",
+    "payload": {
+      "name": "AirlineAvgDelay",
+      "parentObject": {
+        "targetUniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Attribute",
+        "instance": "{\"templateId\":\"BasicEventAttribute\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"EventSelectStep\",\"id\":\"65245562-607b-42b7-bb50-504d7faa174a\",\"rows\":[{\"name\":\"EventSelector\",\"kind\":\"Event\",\"arguments\":[{\"kind\":\"EventReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"67ad95e4-663c-4859-abfb-d5c671a681fd\"}],\"name\":\"event\"}]},{\"name\":\"EventFieldSelector\",\"kind\":\"EventField\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"AirlineAvgDelay\"}]}]},{\"name\":\"EventComputeStep\",\"id\":\"710993a3-4e5b-4fef-9856-912c0a4ebc03\",\"rows\":[{\"name\":\"TypeAssertion\",\"kind\":\"TypeAssertion\",\"arguments\":[{\"name\":\"op\",\"type\":\"string\",\"value\":\"Text\"},{\"name\":\"format\",\"type\":\"string\",\"value\":\"\"}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "0351cc3b-dafb-4f0b-a902-a44872ab2b89",
+    "payload": {
+      "name": "EH_Flights alert",
+      "parentObject": {
+        "targetUniqueIdentifier": "8379943d-6e83-41da-88e1-51adffb0aaf6"
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "b06dfb9a-2619-4de1-b547-400b86d4479e"
+      },
+      "definition": {
+        "type": "Rule",
+        "instance": "{\"templateId\":\"AttributeTrigger\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"ScalarSelectStep\",\"id\":\"9597ca84-2ad2-4d5d-a2de-dc484e582a36\",\"rows\":[{\"name\":\"AttributeSelector\",\"kind\":\"Attribute\",\"arguments\":[{\"kind\":\"AttributeReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"a7826a05-d7b8-4886-8fa8-9036efeb4022\"}],\"name\":\"attribute\"}]}]},{\"name\":\"ScalarDetectStep\",\"id\":\"589433b6-a067-46f0-9260-329043510f0f\",\"rows\":[{\"name\":\"NumberBecomes\",\"kind\":\"NumberBecomes\",\"arguments\":[{\"name\":\"op\",\"type\":\"string\",\"value\":\"BecomesGreaterThan\"},{\"name\":\"value\",\"type\":\"number\",\"value\":60.0}]},{\"name\":\"OccurrenceOption\",\"kind\":\"EachTime\",\"arguments\":[]}]},{\"name\":\"ActStep\",\"id\":\"0f385f77-1c83-4f49-ac0a-5b68341a56f8\",\"rows\":[{\"name\":\"EmailBinding\",\"kind\":\"EmailMessage\",\"arguments\":[{\"name\":\"messageLocale\",\"type\":\"string\",\"value\":\"\"},{\"name\":\"sentTo\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"kudzi@kudzaisolutions.com\"}]},{\"name\":\"copyTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"bCCTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"subject\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Activator Trigger: New event from EH_Flights alert\"}]},{\"name\":\"headline\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"New event from EH_Flights alert\"}]},{\"name\":\"optionalMessage\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"\"}]},{\"name\":\"additionalInformation\",\"type\":\"array\",\"values\":[]}]}]}]}",
+        "settings": {
+          "shouldRun": true,
+          "shouldApplyRuleOnUpdate": false
+        }
+      }
+    },
+    "type": "timeSeriesView-v1"
+  }
+]
